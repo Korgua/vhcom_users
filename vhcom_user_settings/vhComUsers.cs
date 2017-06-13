@@ -57,6 +57,7 @@ namespace vhcom_user_settings {
             winUser.Remove(alma);*/
         }
         public void listWindowsUsers() {
+            log.writeToLog(null, "[ListWindowsUsers] Begin");
             ListView lv = new ListView();
             lv.FullRowSelect = true;
             lv.View = View.Details;
@@ -64,6 +65,7 @@ namespace vhcom_user_settings {
             lv.AllowDrop = false;
             lv.Top = 5;lv.Width = 455;lv.Left = 10;lv.Height = winUser.Count * 20 + 10;
             lv.BackColor = Color.WhiteSmoke;
+            lv.GridLines = true;
             // Prevent the column resize
             lv.ColumnWidthChanging += (e, sender) => {
                 ColumnWidthChangingEventArgs arg = (ColumnWidthChangingEventArgs)sender;
@@ -74,8 +76,9 @@ namespace vhcom_user_settings {
             lv.Columns.Add("Rendszergazda?", 100, HorizontalAlignment.Center);
             lv.Columns.Add("Távoli?", 100, HorizontalAlignment.Center);
             lv.Columns.Add("Aktív?", 100, HorizontalAlignment.Center);
-
-            foreach(winUser winUser in winUser) {
+            log.writeToLog(null, "[ListWindowsUsers] Lisrview created");
+            foreach (winUser winUser in winUser) {
+                log.writeToLog(null,winUser.name);
                 ListViewItem lvi = new ListViewItem(winUser.name);
                 lvi.SubItems.Add(winUser.admin == true ? "igen" : "nem");
                 lvi.SubItems.Add(winUser.rdp == true ? "igen" : "nem");
@@ -90,6 +93,7 @@ namespace vhcom_user_settings {
                 lvi = null;
             }
             tabWindowsUsers.Controls.Add(lv);
+            log.writeToLog(null, "[ListWindowsUsers] End");
         }
 
 
