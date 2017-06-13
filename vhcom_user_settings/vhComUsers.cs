@@ -66,7 +66,7 @@ namespace vhcom_user_settings {
             lv.Top = 5;lv.Width = 455;lv.Left = 10;lv.Height = winUser.Count * 20 + 10;
             lv.BackColor = Color.WhiteSmoke;
             lv.GridLines = true;
-            // Prevent the column resize
+            // Prevent the column resizeeeee
             lv.ColumnWidthChanging += (e, sender) => {
                 ColumnWidthChangingEventArgs arg = (ColumnWidthChangingEventArgs)sender;
                 arg.Cancel = true;
