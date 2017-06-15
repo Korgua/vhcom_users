@@ -269,7 +269,7 @@
             this.TabControl.Location = new System.Drawing.Point(3, 3);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(688, 442);
+            this.TabControl.Size = new System.Drawing.Size(540, 442);
             this.TabControl.TabIndex = 8;
             // 
             // tabSpecialUsers
@@ -278,7 +278,7 @@
             this.tabSpecialUsers.Controls.Add(this.colorDescription);
             this.tabSpecialUsers.Location = new System.Drawing.Point(4, 22);
             this.tabSpecialUsers.Name = "tabSpecialUsers";
-            this.tabSpecialUsers.Size = new System.Drawing.Size(680, 416);
+            this.tabSpecialUsers.Size = new System.Drawing.Size(532, 416);
             this.tabSpecialUsers.TabIndex = 0;
             this.tabSpecialUsers.Text = "VH Com Konfiguráció";
             // 
@@ -288,7 +288,7 @@
             this.tabServices.Location = new System.Drawing.Point(4, 22);
             this.tabServices.Name = "tabServices";
             this.tabServices.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServices.Size = new System.Drawing.Size(680, 416);
+            this.tabServices.Size = new System.Drawing.Size(532, 416);
             this.tabServices.TabIndex = 1;
             this.tabServices.Text = "Szolgáltatások";
             // 
@@ -301,7 +301,7 @@
             this.tabWindowsUsers.Controls.Add(this.irsz_group);
             this.tabWindowsUsers.Location = new System.Drawing.Point(4, 22);
             this.tabWindowsUsers.Name = "tabWindowsUsers";
-            this.tabWindowsUsers.Size = new System.Drawing.Size(680, 416);
+            this.tabWindowsUsers.Size = new System.Drawing.Size(532, 416);
             this.tabWindowsUsers.TabIndex = 2;
             this.tabWindowsUsers.Text = "Windows Felhasználók";
             // 
@@ -309,7 +309,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 485);
+            this.ClientSize = new System.Drawing.Size(544, 485);
             this.Controls.Add(this.TabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

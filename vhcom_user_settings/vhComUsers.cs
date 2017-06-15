@@ -64,7 +64,7 @@ namespace vhcom_user_settings {
             lv.View = View.Details;
             lv.AllowColumnReorder = false;
             lv.AllowDrop = false;
-            lv.Top = 5; lv.Left = 10;
+            lv.Top = 0; lv.Left = 0;
             lv.BackColor = Color.WhiteSmoke;
             lv.GridLines = true;
             // Prevent the column resizeeeee
@@ -83,17 +83,19 @@ namespace vhcom_user_settings {
                 width += ch.Width;
             }
             lv.Width = width;
+            lv.Sorting = SortOrder.Ascending;
             return lv;
         }
 
         public void listWindowsUsers() {
             log.writeToLog(null, "[ListWindowsUsers] Begin");
             Dictionary<string, int> headers = new Dictionary<string, int>();
-            headers.Add("Felhasználónév", 150);
-            headers.Add("Rendszergazda?", 100);
-            headers.Add("Távoli?", 100);
-            headers.Add("Aktív?", 100);
+            headers.Add("Felhasználónév", 160);
+            headers.Add("Rendszergazda?", 120);
+            headers.Add("Távoli?", 120);
+            headers.Add("Aktív?", 120);
             ListView lv = createListView(headers);
+
             log.writeToLog(null, "[ListWindowsUsers] Lisrview created");
             foreach (winUser winUser in winUser) {
                 log.writeToLog(null,winUser.name);
@@ -110,7 +112,7 @@ namespace vhcom_user_settings {
                 lv.Items.Add(lvi);
                 lvi = null;
             }
-            lv.Height = lv.Items.Count * 20 + 10;
+            lv.Height = lv.Items.Count * 20 + 5;
             tabWindowsUsers.Controls.Add(lv);
             log.writeToLog(null, "[ListWindowsUsers] End");
         }
@@ -120,7 +122,6 @@ namespace vhcom_user_settings {
         //  Shows the existing VH COM services
         //  Like PumpService, OFSync, etc...
         public void servicesListView() {
-        
             Dictionary<string, string> serviceList = new Dictionary<string, string>();
             serviceList.Add("pumpsrvc", "PumpService");
             serviceList.Add("wuauserv", "windows update");
@@ -128,6 +129,8 @@ namespace vhcom_user_settings {
             serviceList.Add("Service4", "InfoReporterServer");
             serviceList.Add("OfSync", "OfSync");
             serviceList.Add("OfSyncUpdater", "OfSyncUpdater");
+            serviceList.Add("msiserver", "Windows Installer");
+            serviceList.Add("MpsSvc", "Windows Tűzfal");
 
             Dictionary<string, string> ServiceStartType = new Dictionary<string, string>();
             ServiceStartType.Add("Auto", "Automatikus");
@@ -139,10 +142,10 @@ namespace vhcom_user_settings {
             // Prevent the column resize
 
             Dictionary<string, int> windowsServices = new Dictionary<string, int>();
-            windowsServices.Add("Szolgáltatás", 120);
-            windowsServices.Add("Futattó", 120);
-            windowsServices.Add("Indítás", 120);
-            windowsServices.Add("Állapot", 120);
+            windowsServices.Add("Szolgáltatás", 140);
+            windowsServices.Add("Futattó", 160);
+            windowsServices.Add("Indítás", 110);
+            windowsServices.Add("Állapot", 110);
 
             ListView services = createListView(windowsServices);
             services.ColumnWidthChanging += (e, sender) => {
@@ -163,9 +166,15 @@ namespace vhcom_user_settings {
                         serviceName.SubItems.Add(service["StartName"].ToString());
                         serviceName.SubItems.Add(ServiceStartType[service["StartMode"].ToString()]);
                         serviceName.SubItems.Add(ServiceStartType[service["State"].ToString()]);
-                       services.Items.Add(serviceName);
+                        if (service["StartMode"].ToString().ToLower() == "disabled" || service["State"].ToString().ToLower() == "stopped") {
+                            serviceName.BackColor = Color.LightPink;
+                        }
+                        else {
+                            serviceName.BackColor = Color.LightGreen;
+                        }
+                        services.Items.Add(serviceName);
                         break;
-                    }
+                   }
                 }
                 //It is forbidden to delete a key from Dictionary in a loop
                 if (dictKeyToDelete != null) {
@@ -178,9 +187,10 @@ namespace vhcom_user_settings {
                 serviceName.SubItems.Add("Nincs adat");
                 serviceName.SubItems.Add("Nincs adat");
                 serviceName.SubItems.Add("Nincs adat");
+                serviceName.BackColor = System.Drawing.Color.FromArgb(1, 255, 184, 41);
                 services.Items.Add(serviceName);
             }
-            services.Height = services.Items.Count * 20 + 10;
+            services.Height = (services.Items.Count * 20) + 10;
             tabServices.Controls.Add(services);
         }
 
@@ -244,6 +254,7 @@ namespace vhcom_user_settings {
         //  Reset its properties if necessary
         //  e.g: iroda is Administrator, Pénztár is Remote Desktop User
         public void enumSettings() {
+            winUser.Clear();
             PrincipalContext context = new PrincipalContext(ContextType.Machine);
             UserPrincipal user = new UserPrincipal(context);
             PrincipalSearcher search = new PrincipalSearcher(user);
@@ -272,7 +283,7 @@ namespace vhcom_user_settings {
             headers.Add("Micsoda",100);
             headers.Add("SQL-hez név", 75);
             headers.Add("SQL-hez jelszó", 100);
-            headers.Add("Útvonal", 250);
+            headers.Add("Útvonal", 245);
             ListView lv = createListView(headers);
             lv.MouseDoubleClick += (e, sender) => {
                 MouseEventArgs arg = (MouseEventArgs)sender;
@@ -326,13 +337,9 @@ namespace vhcom_user_settings {
             /*foreach (winUser w in winUser) {
                 MessageBox.Show(w.name);
             }*/
-            this.Hide();
-            vhcomUserSettings alma = new vhcomUserSettings();
-            //this.Close();
-            //Application.Restart();
-            //alma.Show();
-            alma.ShowDialog();
-            MessageBox.Show("alma");
+            tabWindowsUsers.Controls.Clear();
+            enumSettings();
+            listWindowsUsers();
         }
 
     }
