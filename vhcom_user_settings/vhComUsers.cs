@@ -55,8 +55,11 @@ namespace vhcom_user_settings {
             alma.name = "Pénztár");
             WUF.addWinUser(alma);*/
 
-            /*WUF.removeWinUser(alma);
-            winUser.Remove(alma);*/
+            /*
+             * WUF.removeWinUser(alma);
+            winUser.Remove(alma);
+            
+             */
         }
 
         public ListView createListView(Dictionary<string, int> header) {
