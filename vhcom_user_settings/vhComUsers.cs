@@ -84,6 +84,7 @@ namespace vhcom_user_settings {
             }
             lv.Width = width;
             lv.Sorting = SortOrder.Ascending;
+
             return lv;
         }
 
