@@ -11,7 +11,9 @@ using System.Xml;
 namespace vhcom_user_settings {
     public partial class vhcomUserSettings : Form {
         public int vhcomUserInstance = 0;
+        
         logging log = new logging();
+        
         List<vhcomUser> vhUser = new ConfigFiles().getVhComUsers();
         List<winUser> winUser = new List<winUser>();
         List<Exception> ex = new List<Exception>();
@@ -56,14 +58,14 @@ namespace vhcom_user_settings {
             /*WUF.removeWinUser(alma);
             winUser.Remove(alma);*/
         }
-        public void listWindowsUsers() {
-            log.writeToLog(null, "[ListWindowsUsers] Begin");
+
+        public ListView createListView(Dictionary<string, int> header) {
             ListView lv = new ListView();
             lv.FullRowSelect = true;
             lv.View = View.Details;
             lv.AllowColumnReorder = false;
             lv.AllowDrop = false;
-            lv.Top = 5;lv.Width = 455;lv.Left = 10;lv.Height = winUser.Count * 20 + 10;
+            lv.Top = 5; lv.Left = 10;
             lv.BackColor = Color.WhiteSmoke;
             lv.GridLines = true;
             // Prevent the column resizeeeee
@@ -72,10 +74,27 @@ namespace vhcom_user_settings {
                 arg.Cancel = true;
                 arg.NewWidth = lv.Columns[arg.ColumnIndex].Width;
             };
-            lv.Columns.Add("Felhasználónév", 150, HorizontalAlignment.Left);
-            lv.Columns.Add("Rendszergazda?", 100, HorizontalAlignment.Center);
-            lv.Columns.Add("Távoli?", 100, HorizontalAlignment.Center);
-            lv.Columns.Add("Aktív?", 100, HorizontalAlignment.Center);
+            bool first = true;
+            foreach(KeyValuePair<string,int> kvp in header) {
+                lv.Columns.Add(kvp.Key.ToString(), kvp.Value, first==true ? HorizontalAlignment.Left : HorizontalAlignment.Center);
+
+            }
+            int width = 5;
+            foreach(ColumnHeader ch in lv.Columns) {
+                width += ch.Width;
+            }
+            lv.Width = width;
+            return lv;
+        }
+
+        public void listWindowsUsers() {
+            log.writeToLog(null, "[ListWindowsUsers] Begin");
+            Dictionary<string, int> headers = new Dictionary<string, int>();
+            headers.Add("Felhasználónév", 150);
+            headers.Add("Rendszergazda?", 100);
+            headers.Add("Távoli?", 100);
+            headers.Add("Aktív?", 100);
+            ListView lv = createListView(headers);
             log.writeToLog(null, "[ListWindowsUsers] Lisrview created");
             foreach (winUser winUser in winUser) {
                 log.writeToLog(null,winUser.name);
@@ -92,27 +111,17 @@ namespace vhcom_user_settings {
                 lv.Items.Add(lvi);
                 lvi = null;
             }
+            lv.Height = lv.Items.Count * 20 + 10;
             tabWindowsUsers.Controls.Add(lv);
             log.writeToLog(null, "[ListWindowsUsers] End");
         }
 
 
 
-
-
-
-        //  Enable/disable the specified windows user
-        public void lockUnlockUser(winUser winuser, bool action) {
-            Console.WriteLine();
-            Console.WriteLine("wmic useraccount where name='" + winuser.name + "' set disabled=" + false);
-            Console.WriteLine();
-        }
-
-
         //  Shows the existing VH COM services
         //  Like PumpService, OFSync, etc...
         public void servicesListView() {
-
+        
             Dictionary<string, string> serviceList = new Dictionary<string, string>();
             serviceList.Add("pumpsrvc", "PumpService");
             serviceList.Add("wuauserv", "windows update");
@@ -128,35 +137,21 @@ namespace vhcom_user_settings {
             ServiceStartType.Add("Stopped", "Leállítva");
             ServiceStartType.Add("Running", "Fut");
 
-            ListView services = new ListView();
-            services.FullRowSelect = true;
-            services.View = View.Details;
-            services.AllowColumnReorder = false;
-            services.AllowDrop = false;
-            services.Top = 5;
-            services.Width = 505;
-            services.Left = 10;
-
             // Prevent the column resize
+
+            Dictionary<string, int> windowsServices = new Dictionary<string, int>();
+            windowsServices.Add("Szolgáltatás", 120);
+            windowsServices.Add("Futattó", 120);
+            windowsServices.Add("Indítás", 120);
+            windowsServices.Add("Állapot", 120);
+
+            ListView services = createListView(windowsServices);
             services.ColumnWidthChanging += (e, sender) => {
                 ColumnWidthChangingEventArgs arg = (ColumnWidthChangingEventArgs)sender;
                 arg.Cancel = true;
-                arg.NewWidth = special_users.Columns[arg.ColumnIndex].Width;
+                arg.NewWidth = services.Columns[arg.ColumnIndex].Width;
             };
-            services.Columns.Add("Szolgáltatás");
-            services.Columns.Add("Futtató");
-            services.Columns.Add("Indítás");
-            services.Columns.Add("Állapot");
-
-
-
-            services.Columns[0].Width = 120;
-            services.Columns[1].Width = 120;
-            services.Columns[2].Width = 120;
-            services.Columns[3].Width = 120;
-
-            services.Height = serviceList.Count * 15 + 45;
-            this.tabServices.Controls.Add(services);
+            
             ListViewItem serviceName = null;
             ManagementObjectCollection queryCollection = OF.wqlQuery("select Name, StartName, StartMode, State from Win32_Service");// where name='"+kv.Key+"'");
             foreach (ManagementObject service in queryCollection) {
@@ -185,11 +180,12 @@ namespace vhcom_user_settings {
                 serviceName.SubItems.Add("Nincs adat");
                 services.Items.Add(serviceName);
             }
-
+            services.Height = services.Items.Count * 20 + 10;
+            tabServices.Controls.Add(services);
         }
 
         public void enumUsers() {
-            if (vhUser.Count != 0 && error.Count != 0) {
+            /*if (vhUser.Count != 0 && error.Count != 0) {
                 usersGroup.Top = colorDescription.Height + special_users.Height + 5;
                 irsz_group.Top = usersGroup.Top + usersGroup.Height + 5;
             }
@@ -223,7 +219,7 @@ namespace vhcom_user_settings {
                 }
             }
             pPsw.Text = "P+irsz";
-            iPsw.Text = "Iroda+irsz";
+            iPsw.Text = "Iroda+irsz";*/
         }
 
         //  Check if the VHCOM configuration files, 
@@ -237,10 +233,10 @@ namespace vhcom_user_settings {
             green.Top = 15;
             green.Left = 20;
             green.Width = 300;
-            colorDescription.Top = special_users.Height + 30;
+            //colorDescription.Top = special_users.Height + 30;
             colorDescription.BackColor = System.Drawing.Color.White;
             colorDescription.Controls.Add(green);
-            colorDescription.Visible = true;
+            //colorDescription.Visible = true;
 
         }
 
@@ -271,74 +267,48 @@ namespace vhcom_user_settings {
             }
         }
 
-        void onDoubleClickListView(object sender, MouseEventArgs e) {
-            System.Diagnostics.ProcessStartInfo proccessStartInfo = new System.Diagnostics.ProcessStartInfo();
-            ListViewHitTestInfo info = special_users.HitTest(e.X, e.Y);
-            string path = info.Item.SubItems[4].Text;
-            ListViewItem item = info.Item;
-            if (item != null && item.SubItems[3].Text != "---") {
-                proccessStartInfo = new System.Diagnostics.ProcessStartInfo("notepad", path);
-                OF.sysDiag(proccessStartInfo);
-
-            }
-            else {
-                this.special_users.SelectedItems.Clear();
-                MessageBox.Show(path, "Hiba", MessageBoxButtons.OK);
-            }
-        }
-
         public void createHeadersInListView() {
-            special_users.View = View.Details;
-            special_users.CheckBoxes = true;
-            special_users.AllowColumnReorder = false;
-            special_users.AllowDrop = false;
-            special_users.ColumnWidthChanging += (e, sender) => {
-                ColumnWidthChangingEventArgs arg = (ColumnWidthChangingEventArgs)sender;
-                arg.Cancel = true;
-                arg.NewWidth = special_users.Columns[arg.ColumnIndex].Width;
+            Dictionary<string, int> headers = new Dictionary<string, int>();
+            headers.Add("Micsoda",100);
+            headers.Add("SQL-hez név", 75);
+            headers.Add("SQL-hez jelszó", 100);
+            headers.Add("Útvonal", 250);
+            ListView special_users = createListView(headers);
+            special_users.MouseDoubleClick += (e, sender) => {
+                MouseEventArgs arg = (MouseEventArgs)sender;
+                System.Diagnostics.ProcessStartInfo proccessStartInfo = new System.Diagnostics.ProcessStartInfo();
+                ListViewHitTestInfo info = special_users.HitTest(arg.X,arg.Y);
+                string path = info.Item.SubItems[3].Text;
+                ListViewItem item = info.Item;
+                if(item != null && item.SubItems[2].Text != "---") {
+                    proccessStartInfo = new System.Diagnostics.ProcessStartInfo("notepad", path);
+                    OF.sysDiag(proccessStartInfo);
+                }
+                else {
+                    special_users.SelectedItems.Clear();
+                    MessageBox.Show(path, "Hiba", MessageBoxButtons.OK);
+                }
             };
-            special_users.MouseDoubleClick += new MouseEventHandler(onDoubleClickListView);
 
-            special_users.Columns.Add("");
-            special_users.Columns.Add("Micsoda");
-            special_users.Columns.Add("SQL-hez név");
-            special_users.Columns.Add("Jelszó");
-            special_users.Columns.Add("Útvonal");
-
-
-            special_users.Columns[0].Width = 20;
-            special_users.Columns[1].Width = 100;
-            special_users.Columns[2].Width = 75;
-            special_users.Columns[3].Width = 100;
-            special_users.Columns[4].Width = 300;
             foreach (vhcomUser vhUser in vhUser) {
-                log.writeToLog(null, string.Format("Name: {0}", vhUser.name));
-                log.writeToLog(null, string.Format("password: {0}", vhUser.password));
-                log.writeToLog(null, string.Format("type: {0}", vhUser.type));
-                log.writeToLog(null, string.Format("path: {0}", vhUser.path));
-                insertUserIntoListView(vhUser.type, vhUser.name, vhUser.password, vhUser.path);
+                insertUserIntoListView(special_users,vhUser.type, vhUser.name, vhUser.password, vhUser.path);
             }
-            special_users.Columns[0].DisplayIndex = special_users.Columns.Count-1;
-            special_users.Sort();
+            special_users.Height = special_users.Items.Count * 20 + 10;
+            tabSpecialUsers.Controls.Add(special_users);
         }
-        public void insertUserIntoListView(string what, string name, string psw, string path) {
-            ListViewItem whichConfig = new ListViewItem("");
+
+        public void insertUserIntoListView(ListView special_users, string what, string name, string psw, string path) {
+            ListViewItem whichConfig = new ListViewItem(what);
             if (psw == "PE1267cs")
                 whichConfig.BackColor = System.Drawing.Color.LightGreen;
             else if (psw == "---")
                 whichConfig.BackColor = System.Drawing.Color.LightPink;
             else
                 whichConfig.BackColor = System.Drawing.Color.FromArgb(1, 255, 184, 41);
-            whichConfig.SubItems.Add(what);
             whichConfig.SubItems.Add(name);
             whichConfig.SubItems.Add(psw);
             whichConfig.SubItems.Add(path);
-
-            special_users.Height += 15;
             special_users.Items.Add(whichConfig);
-            special_users.FullRowSelect = true;
-            special_users.Visible = true;
-            special_users_label.Visible = true;
         }
 
         private void irszTxtBox_TextChanged(object sender, EventArgs e) {

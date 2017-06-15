@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(vhcomUserSettings));
-            this.special_users_label = new System.Windows.Forms.Label();
-            this.special_users = new System.Windows.Forms.ListView();
             this.colorDescription = new System.Windows.Forms.GroupBox();
             this.usersGroup = new System.Windows.Forms.GroupBox();
             this.pRdp = new System.Windows.Forms.CheckBox();
@@ -61,29 +59,6 @@
             this.tabSpecialUsers.SuspendLayout();
             this.tabWindowsUsers.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // special_users_label
-            // 
-            this.special_users_label.AutoSize = true;
-            this.special_users_label.Location = new System.Drawing.Point(3, 5);
-            this.special_users_label.Name = "special_users_label";
-            this.special_users_label.Size = new System.Drawing.Size(111, 13);
-            this.special_users_label.TabIndex = 0;
-            this.special_users_label.Text = "Speciális felhasználók";
-            this.special_users_label.Visible = false;
-            // 
-            // special_users
-            // 
-            this.special_users.CheckBoxes = true;
-            this.special_users.FullRowSelect = true;
-            this.special_users.GridLines = true;
-            this.special_users.Location = new System.Drawing.Point(9, 23);
-            this.special_users.MultiSelect = false;
-            this.special_users.Name = "special_users";
-            this.special_users.Size = new System.Drawing.Size(656, 40);
-            this.special_users.TabIndex = 1;
-            this.special_users.UseCompatibleStateImageBehavior = false;
-            this.special_users.Visible = false;
             // 
             // colorDescription
             // 
@@ -300,8 +275,6 @@
             // tabSpecialUsers
             // 
             this.tabSpecialUsers.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabSpecialUsers.Controls.Add(this.special_users_label);
-            this.tabSpecialUsers.Controls.Add(this.special_users);
             this.tabSpecialUsers.Controls.Add(this.colorDescription);
             this.tabSpecialUsers.Location = new System.Drawing.Point(4, 22);
             this.tabSpecialUsers.Name = "tabSpecialUsers";
@@ -350,16 +323,12 @@
             this.irsz_group.PerformLayout();
             this.TabControl.ResumeLayout(false);
             this.tabSpecialUsers.ResumeLayout(false);
-            this.tabSpecialUsers.PerformLayout();
             this.tabWindowsUsers.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label special_users_label;
-        private System.Windows.Forms.ListView special_users;
         private System.Windows.Forms.GroupBox colorDescription;
         private System.Windows.Forms.GroupBox usersGroup;
         private System.Windows.Forms.Label label2;
