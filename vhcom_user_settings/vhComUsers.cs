@@ -21,15 +21,11 @@ namespace vhcom_user_settings {
         OuterFunctions OF = new OuterFunctions();
 
         zipNr zipNr = new zipNr();
-
         private List<string> error = new List<string>();
         public vhcomUserSettings() {
-            
             InitializeComponent();
 
-
-
-            log.writeToLog(null, "EnumSettings Start");
+                        log.writeToLog(null, "EnumSettings Start");
             createHeadersInListView();
             
             enumSettings();
@@ -161,10 +157,11 @@ namespace vhcom_user_settings {
                 string dictKeyToDelete = null;
                 foreach (KeyValuePair<string, string> kv in serviceList) {
                     if ((string)service["Name"] == kv.Key) {
+                        Console.WriteLine("name: {0}, startname: {1}, mode: {2}, state: {3}", service["Name"], service["StartName"], service["StartMode"], service["State"]);
                         dictKeyToDelete = service["Name"].ToString();
                         serviceName = new ListViewItem(kv.Value);
                         serviceName.SubItems.Add(service["StartName"].ToString());
-                        serviceName.SubItems.Add(service["StartMode"].ToString());
+                        serviceName.SubItems.Add(ServiceStartType[service["StartMode"].ToString()]);
                         serviceName.SubItems.Add(ServiceStartType[service["State"].ToString()]);
                        services.Items.Add(serviceName);
                         break;
@@ -276,11 +273,11 @@ namespace vhcom_user_settings {
             headers.Add("SQL-hez név", 75);
             headers.Add("SQL-hez jelszó", 100);
             headers.Add("Útvonal", 250);
-            ListView special_users = createListView(headers);
-            special_users.MouseDoubleClick += (e, sender) => {
+            ListView lv = createListView(headers);
+            lv.MouseDoubleClick += (e, sender) => {
                 MouseEventArgs arg = (MouseEventArgs)sender;
                 System.Diagnostics.ProcessStartInfo proccessStartInfo = new System.Diagnostics.ProcessStartInfo();
-                ListViewHitTestInfo info = special_users.HitTest(arg.X,arg.Y);
+                ListViewHitTestInfo info = lv.HitTest(arg.X,arg.Y);
                 string path = info.Item.SubItems[3].Text;
                 ListViewItem item = info.Item;
                 if(item != null && item.SubItems[2].Text != "---") {
@@ -288,30 +285,26 @@ namespace vhcom_user_settings {
                     OF.sysDiag(proccessStartInfo);
                 }
                 else {
-                    special_users.SelectedItems.Clear();
+                    lv.SelectedItems.Clear();
                     MessageBox.Show(path, "Hiba", MessageBoxButtons.OK);
                 }
             };
 
             foreach (vhcomUser vhUser in vhUser) {
-                insertUserIntoListView(special_users,vhUser.type, vhUser.name, vhUser.password, vhUser.path);
+                ListViewItem whichConfig = new ListViewItem(vhUser.type);
+                if (vhUser.password == "PE1267cs")
+                    whichConfig.BackColor = System.Drawing.Color.LightGreen;
+                else if (vhUser.password == "---")
+                    whichConfig.BackColor = System.Drawing.Color.LightPink;
+                else
+                    whichConfig.BackColor = System.Drawing.Color.FromArgb(1, 255, 184, 41);
+                whichConfig.SubItems.Add(vhUser.name);
+                whichConfig.SubItems.Add(vhUser.password);
+                whichConfig.SubItems.Add(vhUser.path);
+                lv.Items.Add(whichConfig);
             }
-            special_users.Height = special_users.Items.Count * 20 + 10;
-            tabSpecialUsers.Controls.Add(special_users);
-        }
-
-        public void insertUserIntoListView(ListView special_users, string what, string name, string psw, string path) {
-            ListViewItem whichConfig = new ListViewItem(what);
-            if (psw == "PE1267cs")
-                whichConfig.BackColor = System.Drawing.Color.LightGreen;
-            else if (psw == "---")
-                whichConfig.BackColor = System.Drawing.Color.LightPink;
-            else
-                whichConfig.BackColor = System.Drawing.Color.FromArgb(1, 255, 184, 41);
-            whichConfig.SubItems.Add(name);
-            whichConfig.SubItems.Add(psw);
-            whichConfig.SubItems.Add(path);
-            special_users.Items.Add(whichConfig);
+            lv.Height = lv.Items.Count * 20 + 10;
+            tabSpecialUsers.Controls.Add(lv);
         }
 
         private void irszTxtBox_TextChanged(object sender, EventArgs e) {
@@ -330,9 +323,16 @@ namespace vhcom_user_settings {
         }
 
         private void execute_Click(object sender, EventArgs e) {
-            foreach (winUser w in winUser) {
+            /*foreach (winUser w in winUser) {
                 MessageBox.Show(w.name);
-            }
+            }*/
+            this.Hide();
+            vhcomUserSettings alma = new vhcomUserSettings();
+            //this.Close();
+            //Application.Restart();
+            //alma.Show();
+            alma.ShowDialog();
+            MessageBox.Show("alma");
         }
 
     }
