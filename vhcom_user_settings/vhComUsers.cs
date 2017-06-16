@@ -67,7 +67,8 @@ namespace vhcom_user_settings {
             lv.Top = 0; lv.Left = 0;
             lv.BackColor = Color.WhiteSmoke;
             lv.GridLines = true;
-            // Prevent the column resizeeeee
+
+            // Prevent the column resize
             lv.ColumnWidthChanging += (e, sender) => {
                 ColumnWidthChangingEventArgs arg = (ColumnWidthChangingEventArgs)sender;
                 arg.Cancel = true;
@@ -76,6 +77,7 @@ namespace vhcom_user_settings {
             bool first = true;
             foreach(KeyValuePair<string,int> kvp in header) {
                 lv.Columns.Add(kvp.Key.ToString(), kvp.Value, first==true ? HorizontalAlignment.Left : HorizontalAlignment.Center);
+                if(first) first = false;
 
             }
             int width = 5;
@@ -97,6 +99,19 @@ namespace vhcom_user_settings {
             headers.Add("Aktív?", 120);
             ListView lv = createListView(headers);
 
+            lv.MouseClick += (e, sender) => {
+                MouseEventArgs arg = (MouseEventArgs)sender;
+                ListViewHitTestInfo info = lv.HitTest(arg.X, arg.Y);
+                ListViewItem item = info.Item;
+                if(item != null) {
+                    Console.WriteLine("Sor......");
+                }
+                else {
+                    lv.SelectedItems.Clear();
+                    MessageBox.Show("Nincs kiválasztva sor, próbáld újra", "Hiba", MessageBoxButtons.OK);
+                }
+            };
+
             log.writeToLog(null, "[ListWindowsUsers] Lisrview created");
             foreach (winUser winUser in winUser) {
                 log.writeToLog(null,winUser.name);
@@ -113,11 +128,31 @@ namespace vhcom_user_settings {
                 lv.Items.Add(lvi);
                 lvi = null;
             }
-            lv.Height = lv.Items.Count * 20 + 5;
+            lv.Height = lv.Items.Count * 20 + 10;
             tabWindowsUsers.Controls.Add(lv);
             log.writeToLog(null, "[ListWindowsUsers] End");
         }
 
+        public void windowsUserEditForm(string username) {
+            Label lbl_username = new Label();
+            Label lbl_newusername = new Label();
+            Label lbl_password = new Label();
+            Label lbl_groups = new Label();
+            Label lbl_enabled = new Label();
+
+            TextBox txt_username = new TextBox();
+            TextBox txt_newusername = new TextBox();
+            TextBox txt_password = new TextBox();
+            ComboBox cmb_groups = new ComboBox();
+            CheckBox chk_enabled = new CheckBox();
+
+            txt_username.Enabled = false;
+
+
+            lbl_username.Text = "Felhasználónév";
+            txt_username.Text = username;
+
+        }
 
 
         //  Shows the existing VH COM services
@@ -148,21 +183,17 @@ namespace vhcom_user_settings {
             windowsServices.Add("Indítás", 110);
             windowsServices.Add("Állapot", 110);
 
-            ListView services = createListView(windowsServices);
-            services.ColumnWidthChanging += (e, sender) => {
-                ColumnWidthChangingEventArgs arg = (ColumnWidthChangingEventArgs)sender;
-                arg.Cancel = true;
-                arg.NewWidth = services.Columns[arg.ColumnIndex].Width;
-            };
-            
+            ListView lv = createListView(windowsServices);
             ListViewItem serviceName = null;
+
             ManagementObjectCollection queryCollection = OF.wqlQuery("select Name, StartName, StartMode, State from Win32_Service");// where name='"+kv.Key+"'");
             foreach (ManagementObject service in queryCollection) {
                 string dictKeyToDelete = null;
                 foreach (KeyValuePair<string, string> kv in serviceList) {
-                    if ((string)service["Name"] == kv.Key) {
-                        Console.WriteLine("name: {0}, startname: {1}, mode: {2}, state: {3}", service["Name"], service["StartName"], service["StartMode"], service["State"]);
-                        dictKeyToDelete = service["Name"].ToString();
+                    if (service["Name"].ToString().ToLower() == kv.Key.ToLower()) {
+                        Font stdfont = new Font("Arial", 15.0f, FontStyle.Bold);
+                        log.writeToLog(null,string.Format("name: {0}, startname: {1}, mode: {2}, state: {3}", service["Name"], service["StartName"], service["StartMode"], service["State"]));
+                        dictKeyToDelete = kv.Key;
                         serviceName = new ListViewItem(kv.Value);
                         serviceName.SubItems.Add(service["StartName"].ToString());
                         serviceName.SubItems.Add(ServiceStartType[service["StartMode"].ToString()]);
@@ -173,26 +204,31 @@ namespace vhcom_user_settings {
                         else {
                             serviceName.BackColor = Color.LightGreen;
                         }
-                        services.Items.Add(serviceName);
+                        Console.WriteLine("Font size: {0}", serviceName.Font.Size);
+                        //serviceName.Font = stdfont;
+                        lv.Items.Add(serviceName);
+                        Console.WriteLine("Position Y: {0}", serviceName.Position.Y);
                         break;
                    }
                 }
                 //It is forbidden to delete a key from Dictionary in a loop
                 if (dictKeyToDelete != null) {
+                    log.writeToLog(null, string.Format("Removable key: {0}", dictKeyToDelete));
                     serviceList.Remove(dictKeyToDelete);
                     dictKeyToDelete = null;
                 }
             }
             foreach (KeyValuePair<string, string> kv in serviceList) {
+                log.writeToLog(null, string.Format("Unknown services: {0}", kv.Key));
                 serviceName = new ListViewItem(kv.Value);
                 serviceName.SubItems.Add("Nincs adat");
                 serviceName.SubItems.Add("Nincs adat");
                 serviceName.SubItems.Add("Nincs adat");
-                serviceName.BackColor = System.Drawing.Color.FromArgb(1, 255, 184, 41);
-                services.Items.Add(serviceName);
+                serviceName.BackColor = Color.FromArgb(1, 255, 184, 41);
+                lv.Items.Add(serviceName);
             }
-            services.Height = (services.Items.Count * 20) + 10;
-            tabServices.Controls.Add(services);
+            //lv.Height = lv.Items.Count * 20;
+            tabServices.Controls.Add(lv);
         }
 
         public void enumUsers() {
@@ -305,11 +341,11 @@ namespace vhcom_user_settings {
             foreach (vhcomUser vhUser in vhUser) {
                 ListViewItem whichConfig = new ListViewItem(vhUser.type);
                 if (vhUser.password == "PE1267cs")
-                    whichConfig.BackColor = System.Drawing.Color.LightGreen;
+                    whichConfig.BackColor = Color.LightGreen;
                 else if (vhUser.password == "---")
-                    whichConfig.BackColor = System.Drawing.Color.LightPink;
+                    whichConfig.BackColor = Color.LightPink;
                 else
-                    whichConfig.BackColor = System.Drawing.Color.FromArgb(1, 255, 184, 41);
+                    whichConfig.BackColor = Color.FromArgb(1, 255, 184, 41);
                 whichConfig.SubItems.Add(vhUser.name);
                 whichConfig.SubItems.Add(vhUser.password);
                 whichConfig.SubItems.Add(vhUser.path);
@@ -322,12 +358,12 @@ namespace vhcom_user_settings {
         private void irszTxtBox_TextChanged(object sender, EventArgs e) {
             if (Regex.IsMatch(irszTxtBox.Text, @"^\d{4}$")) {
                 zipNr.val = irszTxtBox.Text;
-                irszTxtBox.BackColor = System.Drawing.Color.LightGreen;
+                irszTxtBox.BackColor = Color.LightGreen;
                 pPsw.Text = "P" + zipNr.val;
                 iPsw.Text = "Iroda" + zipNr.val;
             }
             else {
-                irszTxtBox.BackColor = System.Drawing.Color.LightPink;
+                irszTxtBox.BackColor = Color.LightPink;
                 zipNr.val = null;
                 pPsw.Text = "P+irsz";
                 iPsw.Text = "Iroda+irsz";
