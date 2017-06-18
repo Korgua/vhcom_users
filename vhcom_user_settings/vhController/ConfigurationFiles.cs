@@ -230,7 +230,7 @@ namespace vhcom_user_settings {
                                         }
                                     }
                                 }
-                                sr.Close();
+                                //sr.Close();
                                 success = true;
                                 break;
                             }
@@ -278,7 +278,7 @@ namespace vhcom_user_settings {
                                         }
                                     }
                                 }
-                                sr.Close();
+                                //sr.Close();
                                 success = true;
                                 break;
                             }

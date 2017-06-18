@@ -4,6 +4,7 @@ using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices.ActiveDirectory;
 using System.Text;
+using System.Windows.Forms;
 
 namespace vhcom_user_settings {
     public class winUserFunctions {
@@ -134,6 +135,22 @@ namespace vhcom_user_settings {
             log.writeToLog(null, String.Format("[removeWinUser] End"));
             return false;
         }
+
+        public bool deleteWindowsUserConfirmation(winUser winUser) {
+            DialogResult choice = MessageBox.Show(winUser.name.ToUpper() + " törlésre kerül!\nValóban törölni akarod?", "Megerősítés", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (choice == DialogResult.Yes) {
+                string name = winUser.name;
+                if (removeWinUser(winUser)) {
+                    MessageBox.Show(name + " sikeresen törölve", "Információ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return true;
+                }
+                else {
+                    MessageBox.Show("A törlés közben hiba lépett fel. Rendszergazdaként futtatod?", "Információ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            return false;
+        }
+
         // add windows user to group(s)
         // winuser.group stores the group(s)
         // Group/UserPrincipal.FindByIdentity() takes 7-10 seconds
@@ -237,16 +254,16 @@ namespace vhcom_user_settings {
         }
 
 
-        public void getGroupsByUser(winUser winUser) {
+        public void getGroupsByUser(winUser winUser, UserPrincipal UserPrincipal, PrincipalSearcher PrincipalSearcher ) {
             log.writeToLog(null, "[getGroupsByUser] Begin");
             PrincipalContext context = new PrincipalContext(ContextType.Machine, Environment.MachineName);
             UserPrincipal user = new UserPrincipal(context);
             PrincipalSearcher usrSearch = new PrincipalSearcher(user);
             log.writeToLog(null, "[getGroupsByUser] Principals are setted");
             log.writeToLog(null, String.Format("[getGroupsByUser] Searching for groups for {0}...", winUser.name));
-            foreach (UserPrincipal usrResult in usrSearch.FindAll()) {
-                if (usrResult.SamAccountName.ToLower() == winUser.name.ToLower()) {
-                    foreach (var getGroups in usrResult.GetGroups()) {
+            //foreach (UserPrincipal usrResult in usrSearch.FindAll()) {
+            //    if (usrResult.SamAccountName.ToLower() == winUser.name.ToLower()) {
+                    foreach (var getGroups in UserPrincipal.GetGroups()) {
                         if(getGroups.ToString().ToLower()== "asztal távoli felhasználói") {
                             winUser.rdp = true;
                         }
@@ -256,9 +273,9 @@ namespace vhcom_user_settings {
                         log.writeToLog(null, String.Format("[getGroupsByUser] Group found: {0}", getGroups.ToString()));
                         winUser.setGroup(getGroups.ToString());
                     }
-                    break;
-                }
-            }
+            //        break;
+            //   }
+            //}
             log.writeToLog(null, "[getGroupsByUser] End");
         }
         public void getUserStatus(winUser winUser) {

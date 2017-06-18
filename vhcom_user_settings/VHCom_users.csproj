@@ -74,6 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WindowsUserEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>WindowsUserEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="vhclass\loggingClass.cs" />
     <Compile Include="vhclass\usersClass.cs" />
     <Compile Include="vhController\ConfigurationFiles.cs" />
@@ -100,6 +106,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="WindowsUserEditForm.resx">
+      <DependentUpon>WindowsUserEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -116,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bag.ico" />
-    <Content Include="wasd.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
