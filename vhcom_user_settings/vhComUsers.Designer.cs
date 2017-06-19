@@ -1,6 +1,6 @@
-﻿namespace vhcom_user_settings
+﻿namespace VHCom_users
 {
-    partial class vhcomUserSettings
+    public partial class vhcomUserSettings
     {
         /// <summary>
         /// Required designer variable.
@@ -239,7 +239,6 @@
 			this.irszTxtBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.irszTxtBox.Size = new System.Drawing.Size(100, 20);
 			this.irszTxtBox.TabIndex = 5;
-			this.irszTxtBox.TextChanged += new System.EventHandler(this.irszTxtBox_TextChanged);
 			// 
 			// irsz_group
 			// 
@@ -259,7 +258,6 @@
 			this.execute.TabIndex = 7;
 			this.execute.Text = "Végrehajtás";
 			this.execute.UseVisualStyleBackColor = false;
-			this.execute.Click += new System.EventHandler(this.execute_Click);
 			// 
 			// tabMenus
 			// 
@@ -349,10 +347,10 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel irsz_group;
         private System.Windows.Forms.Button execute;
-        private System.Windows.Forms.TabControl tabMenus;
-        private System.Windows.Forms.TabPage tabSpecialUsers;
-        private System.Windows.Forms.TabPage tabServices;
-        private System.Windows.Forms.TabPage tabWindowsUsers;
+        public System.Windows.Forms.TabControl tabMenus;
+        public System.Windows.Forms.TabPage tabSpecialUsers;
+        public System.Windows.Forms.TabPage tabServices;
+        public System.Windows.Forms.TabPage tabWindowsUsers;
     }
 }
 

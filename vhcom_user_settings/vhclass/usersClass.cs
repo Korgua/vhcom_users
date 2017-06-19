@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace vhcom_user_settings {
+namespace VHCom_users {
     public class winUser {
         public string name {get; set;}
         public List<string> group {get;}

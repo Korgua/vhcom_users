@@ -1,4 +1,4 @@
-﻿namespace vhcom_user_settings {
+﻿namespace VHCom_users {
 	partial class WindowsFormUser {
 		/// <summary>
 		/// Required designer variable.

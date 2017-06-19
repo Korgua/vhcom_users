@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-namespace vhcom_user_settings {
+namespace VHCom_users {
     public class ConfigFiles {
 
         public logging log = new logging();

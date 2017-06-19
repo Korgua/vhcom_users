@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace vhcom_user_settings
+namespace VHCom_users
 {
     static class Program
     {

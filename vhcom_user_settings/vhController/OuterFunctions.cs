@@ -4,7 +4,7 @@ using System.Linq;
 using System.Management;
 using System.Text;
 
-namespace vhcom_user_settings {
+namespace VHCom_users {
     public class OuterFunctions {
         //To make CMD calls, it's easier to call it as a function
         //that returns as a string with the output

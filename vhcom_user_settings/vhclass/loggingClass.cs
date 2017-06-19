@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace vhcom_user_settings {
+namespace VHCom_users {
 
     public class logging {
 
         List<string> loggingExc = new List<string>();
         public string logPath = @".\\vhuserlog.txt";
         public logging() {
-            try {
+            /*try {
                 File.Delete(logPath);
             }
             catch (Exception e) {
                 loggingExc.Add(e.Message);
-            }
+            }*/
             createLogFile();
         }
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace vhcom_user_settings {
+namespace VHCom_users {
 	public partial class WindowsFormUser : Form {
 		public WindowsFormUser() {
 			InitializeComponent();
