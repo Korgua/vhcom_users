@@ -39,6 +39,8 @@
 			this.txt_newusername = new System.Windows.Forms.TextBox();
 			this.txt_password = new System.Windows.Forms.TextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.chk_password = new System.Windows.Forms.CheckBox();
+			this.label8 = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.btn_winuser_confirm = new System.Windows.Forms.Button();
@@ -70,7 +72,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(3, 71);
+			this.label3.Location = new System.Drawing.Point(3, 97);
 			this.label3.Margin = new System.Windows.Forms.Padding(0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(100, 15);
@@ -90,7 +92,7 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(3, 40);
+			this.label5.Location = new System.Drawing.Point(3, 41);
 			this.label5.Margin = new System.Windows.Forms.Padding(0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(100, 15);
@@ -110,7 +112,7 @@
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(3, 18);
+			this.label7.Location = new System.Drawing.Point(3, 23);
 			this.label7.Margin = new System.Windows.Forms.Padding(0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(100, 15);
@@ -121,19 +123,19 @@
 			// chk_grpadmin
 			// 
 			this.chk_grpadmin.AutoSize = true;
-			this.chk_grpadmin.Location = new System.Drawing.Point(120, 19);
+			this.chk_grpadmin.Location = new System.Drawing.Point(120, 21);
 			this.chk_grpadmin.Name = "chk_grpadmin";
 			this.chk_grpadmin.Size = new System.Drawing.Size(15, 14);
-			this.chk_grpadmin.TabIndex = 3;
+			this.chk_grpadmin.TabIndex = 4;
 			this.chk_grpadmin.UseVisualStyleBackColor = true;
 			// 
 			// chk_grprdp
 			// 
 			this.chk_grprdp.AutoSize = true;
-			this.chk_grprdp.Location = new System.Drawing.Point(120, 40);
+			this.chk_grprdp.Location = new System.Drawing.Point(120, 42);
 			this.chk_grprdp.Name = "chk_grprdp";
 			this.chk_grprdp.Size = new System.Drawing.Size(15, 14);
-			this.chk_grprdp.TabIndex = 4;
+			this.chk_grprdp.TabIndex = 5;
 			this.chk_grprdp.UseVisualStyleBackColor = true;
 			// 
 			// chk_grpusers
@@ -142,16 +144,16 @@
 			this.chk_grpusers.Location = new System.Drawing.Point(120, 63);
 			this.chk_grpusers.Name = "chk_grpusers";
 			this.chk_grpusers.Size = new System.Drawing.Size(15, 14);
-			this.chk_grpusers.TabIndex = 5;
+			this.chk_grpusers.TabIndex = 6;
 			this.chk_grpusers.UseVisualStyleBackColor = true;
 			// 
 			// chk_enabled
 			// 
 			this.chk_enabled.AutoSize = true;
-			this.chk_enabled.Location = new System.Drawing.Point(120, 16);
+			this.chk_enabled.Location = new System.Drawing.Point(120, 23);
 			this.chk_enabled.Name = "chk_enabled";
 			this.chk_enabled.Size = new System.Drawing.Size(15, 14);
-			this.chk_enabled.TabIndex = 6;
+			this.chk_enabled.TabIndex = 7;
 			this.chk_enabled.UseVisualStyleBackColor = true;
 			// 
 			// txt_username
@@ -160,24 +162,26 @@
 			this.txt_username.Location = new System.Drawing.Point(120, 17);
 			this.txt_username.Name = "txt_username";
 			this.txt_username.Size = new System.Drawing.Size(100, 20);
-			this.txt_username.TabIndex = 11;
+			this.txt_username.TabIndex = 1;
 			// 
 			// txt_newusername
 			// 
 			this.txt_newusername.Location = new System.Drawing.Point(120, 43);
 			this.txt_newusername.Name = "txt_newusername";
 			this.txt_newusername.Size = new System.Drawing.Size(100, 20);
-			this.txt_newusername.TabIndex = 1;
+			this.txt_newusername.TabIndex = 2;
 			// 
 			// txt_password
 			// 
-			this.txt_password.Location = new System.Drawing.Point(120, 69);
+			this.txt_password.Location = new System.Drawing.Point(120, 95);
 			this.txt_password.Name = "txt_password";
 			this.txt_password.Size = new System.Drawing.Size(100, 20);
-			this.txt_password.TabIndex = 2;
+			this.txt_password.TabIndex = 3;
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.chk_password);
+			this.groupBox1.Controls.Add(this.label8);
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.txt_password);
 			this.groupBox1.Controls.Add(this.label2);
@@ -186,10 +190,30 @@
 			this.groupBox1.Controls.Add(this.txt_username);
 			this.groupBox1.Location = new System.Drawing.Point(7, 4);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(228, 96);
+			this.groupBox1.Size = new System.Drawing.Size(228, 131);
 			this.groupBox1.TabIndex = 14;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Alapadatok";
+			// 
+			// chk_password
+			// 
+			this.chk_password.AutoSize = true;
+			this.chk_password.Checked = true;
+			this.chk_password.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chk_password.Location = new System.Drawing.Point(120, 72);
+			this.chk_password.Name = "chk_password";
+			this.chk_password.Size = new System.Drawing.Size(15, 14);
+			this.chk_password.TabIndex = 7;
+			this.chk_password.UseVisualStyleBackColor = true;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(3, 72);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(94, 13);
+			this.label8.TabIndex = 4;
+			this.label8.Text = "Jelszó módosítása";
 			// 
 			// groupBox2
 			// 
@@ -199,7 +223,7 @@
 			this.groupBox2.Controls.Add(this.chk_grpusers);
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.chk_grprdp);
-			this.groupBox2.Location = new System.Drawing.Point(7, 106);
+			this.groupBox2.Location = new System.Drawing.Point(7, 139);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(228, 83);
 			this.groupBox2.TabIndex = 15;
@@ -210,28 +234,28 @@
 			// 
 			this.groupBox3.Controls.Add(this.label7);
 			this.groupBox3.Controls.Add(this.chk_enabled);
-			this.groupBox3.Location = new System.Drawing.Point(7, 195);
+			this.groupBox3.Location = new System.Drawing.Point(7, 234);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(228, 40);
+			this.groupBox3.Size = new System.Drawing.Size(228, 50);
 			this.groupBox3.TabIndex = 16;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Felhasználó engedélyezése";
 			// 
 			// btn_winuser_confirm
 			// 
-			this.btn_winuser_confirm.Location = new System.Drawing.Point(7, 244);
+			this.btn_winuser_confirm.Location = new System.Drawing.Point(7, 293);
 			this.btn_winuser_confirm.Name = "btn_winuser_confirm";
 			this.btn_winuser_confirm.Size = new System.Drawing.Size(75, 23);
-			this.btn_winuser_confirm.TabIndex = 17;
+			this.btn_winuser_confirm.TabIndex = 8;
 			this.btn_winuser_confirm.Text = "Alkalmaz";
 			this.btn_winuser_confirm.UseVisualStyleBackColor = true;
 			// 
 			// button2
 			// 
-			this.button2.Location = new System.Drawing.Point(160, 244);
+			this.button2.Location = new System.Drawing.Point(160, 293);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 18;
+			this.button2.TabIndex = 9;
 			this.button2.Text = "Mégse";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -240,7 +264,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(242, 279);
+			this.ClientSize = new System.Drawing.Size(242, 324);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.btn_winuser_confirm);
 			this.Controls.Add(this.groupBox3);
@@ -285,5 +309,7 @@
 		public System.Windows.Forms.GroupBox groupBox3;
 		public System.Windows.Forms.Button btn_winuser_confirm;
 		private System.Windows.Forms.Button button2;
+		public System.Windows.Forms.CheckBox chk_password;
+		private System.Windows.Forms.Label label8;
 	}
 }

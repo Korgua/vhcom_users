@@ -74,9 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="vhView\userView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="vhView\userView.cs" />
     <Compile Include="WindowsUserEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,7 +85,7 @@
     <Compile Include="vhclass\usersClass.cs" />
     <Compile Include="vhController\ConfigurationFiles.cs" />
     <Compile Include="vhController\OuterFunctions.cs" />
-    <Compile Include="vhController\functionWindowsUsers.cs" />
+    <Compile Include="vhController\UserController.cs" />
     <Compile Include="vhComUsers.cs">
       <SubType>Form</SubType>
     </Compile>

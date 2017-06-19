@@ -9,14 +9,18 @@ namespace VHCom_users {
         List<string> loggingExc = new List<string>();
         public string logPath = @".\\vhuserlog.txt";
         public logging() {
-            /*try {
-                File.Delete(logPath);
-            }
-            catch (Exception e) {
-                loggingExc.Add(e.Message);
-            }*/
+
             createLogFile();
         }
+
+		public void deleteLog() {
+			try {
+				File.Delete(logPath);
+			}
+			catch(Exception e) {
+				loggingExc.Add(e.Message);
+			}
+		}
 
         public bool createLogFile() {
             FileStream fs = null;

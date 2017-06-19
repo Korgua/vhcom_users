@@ -4,12 +4,10 @@ using System.IO;
 using System.Xml;
 
 namespace VHCom_users {
-    public class ConfigFiles {
-
-        public logging log = new logging();
-        private List<vhcomUser> vhUser = new List<vhcomUser>();
-
-        public ConfigFiles() {
+    public class ConfigurationFiles {
+		private List<vhcomUser> vhUser = new List<vhcomUser>();
+		private logging log = new logging();
+        public ConfigurationFiles() {
             GetUsersFromDatabaseXml();
             GetUsersFromDbXml();
             GetUsersFromOfsync();
@@ -17,13 +15,12 @@ namespace VHCom_users {
             GetUsersFromAcis();
             GetUsersFromExcelExport();
         }
+		public List<vhcomUser> enumVhComUsers() {
+			return vhUser;
+		}
 
-        public List<vhcomUser> getVhComUsers() {
-            return vhUser;
-        }
-
-        void GetUsersFromOfsync() {
-            string path = @"C:\\ofsync\\ofsync.exe.config";
+		void GetUsersFromOfsync() {
+			string path = @"C:\\ofsync\\ofsync.exe.config";
             vhcomUser temp = new vhcomUser(path);
             temp.path = path;
             temp.type="ofsync.exe.config";
