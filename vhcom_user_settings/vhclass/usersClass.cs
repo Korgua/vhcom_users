@@ -31,8 +31,4 @@ namespace VHCom_users {
             this.path = path;
         }
     }
-
-    public class zipNr {
-        public string val {get; set;}
-    }
 }

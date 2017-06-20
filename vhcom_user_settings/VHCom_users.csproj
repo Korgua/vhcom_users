@@ -74,6 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="vhclass\regeditClass.cs" />
+    <Compile Include="vhController\regeditController.cs" />
     <Compile Include="vhView\userView.cs" />
     <Compile Include="WindowsUserEditForm.cs">
       <SubType>Form</SubType>
